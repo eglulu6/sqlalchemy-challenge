@@ -95,6 +95,7 @@ def prcp():
 # Return the JSON representation of your dictionary.
     return jsonify(prcp_json_list)
 
+#################################################################################################
 
 # PAGE:  /api/v1.0/stations
 @app.route("/api/v1.0/stations")
@@ -118,6 +119,7 @@ def stations():
 # Return a JSON list of stations from the dataset.
     return jsonify(stataion_json_list)
 
+#################################################################################################
 
 # PAGE:   `/api/v1.0/tobs`
 @app.route('/api/v1.0/tobs')
@@ -149,10 +151,11 @@ def date_tobs():
 # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(most_active_stataion_json_list)
 
+#################################################################################################
 
 # PAGE: `/api/v1.0/<start>` 
 @app.route('/api/v1.0/<start>')
-def tobs_sumry(start):
+def tobs_start_sumry(start):
     # start a new session
     session = Session(bind=engine)
 
@@ -180,6 +183,8 @@ def tobs_sumry(start):
 # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(date_summry_dict)
 
+#################################################################################################
+
 # PAGE: `/api/v1.0/<start>/<end>`
 @app.route('/api/v1.0/<start>/<end>')
 def tobs_sumry(start, end):
@@ -206,7 +211,7 @@ def tobs_sumry(start, end):
     date_avg_tobs = round(session.query(func.avg(Measuerement.tobs))\
         .filter(Measuerement.date >= start)\
         .filter(Measuerement.date <= end)\
-        .all()[0][0]
+        .all()[0][0],2)
 
     session.close()
 
@@ -215,11 +220,7 @@ def tobs_sumry(start, end):
 
 # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(date_summry_dict)
-
-
-
-
-
+#################################################################################################
 
 
 if __name__ == '__main__':
