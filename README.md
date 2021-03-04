@@ -6,13 +6,11 @@
 
 To begin, use Python and SQLAlchemy to do basic climate analysis and data exploration of your climate database. All of the following analysis should be completed using SQLAlchemy ORM queries, Pandas, and Matplotlib.
 
-* Use the provided [starter notebook](climate_starter.ipynb) and [hawaii.sqlite](Resources/hawaii.sqlite) files to complete your climate analysis and data exploration.
+* Use SQLAlchemy to connect to your sqlite database.
 
-* Use SQLAlchemy `create_engine` to connect to your sqlite database.
+* Use SQLAlchemy to reflect your tables into classes.
 
-* Use SQLAlchemy `automap_base()` to reflect your tables into classes and save a reference to those classes called `Station` and `Measurement`.
-
-* Link Python to the database by creating an SQLAlchemy session.
+* Link Python to the database.
 
 ### Precipitation Analysis
 
@@ -20,77 +18,50 @@ To begin, use Python and SQLAlchemy to do basic climate analysis and data explor
 
 * Using this date, retrieve the last 12 months of precipitation data by querying the 12 preceding months of data. **Note** you do not pass in the date as a variable to your query.
 
-* Select only the `date` and `prcp` values.
+* Load the query results into a Pandas DataFrame.
 
-* Load the query results into a Pandas DataFrame and set the index to the date column.
+* Plot the results.
 
-* Sort the DataFrame values by `date`.
-
-* Plot the results using the DataFrame `plot` method.
-
-  ![precipitation](Images/precipitation.png)
-
-* Use Pandas to print the summary statistics for the precipitation data.
+* Print the summary statistics for the precipitation data.
 
 ### Station Analysis
 
 * Design a query to calculate the total number of stations in the dataset.
 
-* Design a query to find the most active stations (i.e. which stations have the most rows?).
+* Design a query to find the most active stations.
 
-  * List the stations and observation counts in descending order.
-
-  * Which station id has the highest number of observations?
-
-  * Using the most active station id, calculate the lowest, highest, and average temperature.
+  * Calculate the lowest, highest, and average temperature of the most active stations.
   
-* Design a query to retrieve the last 12 months of temperature observation data (TOBS).
+* Design a query to retrieve the last 12 months of temperature observation data (TOBS) from the most active station.
 
-  * Filter by the station with the highest number of observations.
-
-  * Query the last 12 months of temperature observation data for this station.
-
-  * Plot the results as a histogram with `bins=12`.
-
-    ![station-histogram](Images/station-histogram.png)
-
-* Close out your session.
+  * Plot the results as a histogram.
 
 - - -
 
 ## Step 2 - Climate App
 
-Now that you have completed your initial analysis, design a Flask API based on the queries that you have just developed.
-
-* Use Flask to create your routes.
+Design a Flask API based on the queries that you have just developed.
 
 ### Routes
 
-* `/`
-
-  * Home page.
+* `/`  Home page.
 
   * List all routes that are available.
 
-* `/api/v1.0/precipitation`
+* `/api/v1.0/precipitation` Precipitation Analysis of the last 12 months
 
-  * Convert the query results to a dictionary using `date` as the key and `prcp` as the value.
+  * Convert the Precipitation Analysis query results to a dictionary.
 
-  * Return the JSON representation of your dictionary.
+* `/api/v1.0/stations` Station Analysis for all stations precipitation 
 
-* `/api/v1.0/stations`
+  * Convert the Station Analysis query results of all stations precipitation
 
-  * Return a JSON list of stations from the dataset.
+* `/api/v1.0/tobs` Station Analysis for most active station temp observations
 
-* `/api/v1.0/tobs`
   * Query the dates and temperature observations of the most active station for the last year of data.
 
-  * Return a JSON list of temperature observations (TOBS) for the previous year.
+* `/api/v1.0/<start>` and `/api/v1.0/<start>/<end>`  Temperature Analysis of all temps within a specified period
 
-* `/api/v1.0/<start>` and `/api/v1.0/<start>/<end>`
+  * When given the start only, calculate the minimum temperature, the average temperature, and the max temperature for all dates greater than and equal to the start date.
 
-  * Return a JSON list of the minimum temperature, the average temperature, and the max temperature for a given start or start-end range.
-
-  * When given the start only, calculate `TMIN`, `TAVG`, and `TMAX` for all dates greater than and equal to the start date.
-
-  * When given the start and the end date, calculate the `TMIN`, `TAVG`, and `TMAX` for dates between the start and end date inclusive.
+  * When given the start and the end date, calculate the minimum temperature, the average temperature, and the max temperature for dates between the start and end date inclusive.
