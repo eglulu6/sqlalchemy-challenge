@@ -52,7 +52,7 @@ def welcome():
 
 #################################################################################################
 
-# PAGE: /api/v1.0/precipitation
+# PAGE: Precipitation Analysis
 @app.route("/api/v1.0/precipitation")
 def prcp():
     # start a new session
@@ -81,9 +81,8 @@ def prcp():
         yr_mo.append(date[0:7])
     prcp_df['yr_mo'] = yr_mo
 
-    # Convert the Exploratory Precipitation Analysis query results
-    # to a dictionary using `date` as the key and `prcp` as the value.
-
+    # Convert the Exploratory Precipitation Analysis query results to a dictionary
+    
     #empty list
     prcp_json_list = []
 
@@ -99,7 +98,7 @@ def prcp():
 
 #################################################################################################
 
-# PAGE:  /api/v1.0/stations
+# PAGE:  Station Analysis for all stations precipitation
 @app.route("/api/v1.0/stations")
 def stations():
     # start a new session
@@ -124,7 +123,7 @@ def stations():
 
 #################################################################################################
 
-# PAGE:   `/api/v1.0/tobs`
+# PAGE:   Station Analysis for most active station temp observations
 @app.route('/api/v1.0/tobs')
 def date_tobs():
     # start a new session
