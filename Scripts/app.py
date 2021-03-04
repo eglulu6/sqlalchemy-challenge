@@ -156,7 +156,7 @@ def date_tobs():
 
 #################################################################################################
 
-# PAGE: `/api/v1.0/<start>` 
+# PAGE:  Temperature Analysis of all temps with a specified starting date 
 @app.route('/api/v1.0/<start>')
 def tobs_start_sumry(start):
     # start a new session
@@ -188,7 +188,7 @@ def tobs_start_sumry(start):
 
 #################################################################################################
 
-# PAGE: `/api/v1.0/<start>/<end>`
+# PAGE:  Temperature Analysis of all temps within a specified period
 @app.route('/api/v1.0/<start>/<end>')
 def tobs_sumry(start, end):
     # start a new session
