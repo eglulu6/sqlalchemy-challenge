@@ -51,6 +51,7 @@ def welcome():
     )
 
 #################################################################################################
+
 # PAGE: /api/v1.0/precipitation
 @app.route("/api/v1.0/precipitation")
 def prcp():
@@ -65,6 +66,7 @@ def prcp():
 
     # STEP 3: Perform a query to retrieve the data and precipitation scores
     prcp_12_mo_data = session.query(Measuerement.date, Measuerement.prcp).filter(Measuerement.date > end_date).all()
+    
     session.close()
 
     # STEP 4: Save the query results as a Pandas DataFrame and set the index to the date column
@@ -92,7 +94,7 @@ def prcp():
         # append into empty list
         prcp_json_list.append(prcp_dict)
 
-# Return the JSON representation of your dictionary.
+    # Return the JSON representation of your dictionary.
     return jsonify(prcp_json_list)
 
 #################################################################################################
@@ -108,6 +110,7 @@ def stations():
 
     #query table to get station names
     active_stations = session.query(Station.name).all()
+
     session.close()
 
     # loop thru date & prcp in prcp_12_mo_data to pull into key : values
@@ -136,6 +139,7 @@ def date_tobs():
     most_active = session.query(Measuerement.date, Measuerement.tobs)\
     .filter(Measuerement.date > end_date)\
     .filter(Measuerement.station == most_active_station)
+
     session.close()
 
     #empty list
@@ -148,7 +152,7 @@ def date_tobs():
         # append into empty list
         most_active_stataion_json_list.append(prcp_dict)
 
-# Return a JSON list of temperature observations (TOBS) for the previous year.
+    # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(most_active_stataion_json_list)
 
 #################################################################################################
@@ -180,7 +184,7 @@ def tobs_start_sumry(start):
     #store values in dict for json
     date_summry_dict = {'Min_Temp': date_min_tobs, 'Max_Temp: ': date_max_tobs,'Avg_Temp: ': date_avg_tobs}
 
-# Return a JSON list of temperature observations (TOBS) for the previous year.
+    # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(date_summry_dict)
 
 #################################################################################################
@@ -196,18 +200,17 @@ def tobs_sumry(start, end):
     start = '2010-01-06'
     end = '2016-08-24'
 
-    # Using the start and/or end date calculate the lowest, highest, and average temperature.
-    # store values for print statement
+    # Using the start and/or end date calculate the lowest temperature
     date_min_tobs = session.query(func.min(Measuerement.tobs))\
         .filter(Measuerement.date >= start)\
         .filter(Measuerement.date <= end)\
         .all()[0][0]
-
+    # Using the start and/or end date calculate the highest temperature
     date_max_tobs = session.query(func.max(Measuerement.tobs))\
         .filter(Measuerement.date >= start)\
         .filter(Measuerement.date <= end)\
         .all()[0][0]
-
+    # Using the start and/or end date calculate the average temperature
     date_avg_tobs = round(session.query(func.avg(Measuerement.tobs))\
         .filter(Measuerement.date >= start)\
         .filter(Measuerement.date <= end)\
@@ -220,6 +223,7 @@ def tobs_sumry(start, end):
 
 # Return a JSON list of temperature observations (TOBS) for the previous year.
     return jsonify(date_summry_dict)
+
 #################################################################################################
 
 
